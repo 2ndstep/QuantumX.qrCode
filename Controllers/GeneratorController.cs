@@ -16,6 +16,6 @@ namespace QuantumX.qrCode.Controllers
         readonly CodeGenerator generator;
         public GeneratorController(CodeGenerator generator) => this.generator = generator;
         [HttpPost]
-        public void Get(RequestModel model) => this.generator.GenerateDocument(model);
+        public byte[] Get(RequestModel model) => this.generator.GenerateDocument(model);
     }
 }
