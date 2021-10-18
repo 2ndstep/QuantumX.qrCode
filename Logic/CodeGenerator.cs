@@ -67,21 +67,21 @@ namespace QuantumX.qrCode.Logic
                         GetPoints(request.DocumentHeight)
                         ));
                     var page = pdfDocument.AddNewPage();
-                    while (this.request.Repeat > 0)
+                    while (true)
                     {
                         if (position >= this.Codes.Count)
                         {
                             position = 0;
                             this.request.Repeat--;                            
                         }
-                        if (col > colsPerPage)
+                        if (col >= colsPerPage)
                         {
                             col = 0;
                             row++;
                         }
-                        if (row > rowsPerPage)
+                        if (row >= rowsPerPage)
                         {
-                            row = 0;
+                            row = 0;                            
                             if (this.request.Repeat <= 0)
                                 break;
                             page = pdfDocument.AddNewPage();
@@ -93,13 +93,14 @@ namespace QuantumX.qrCode.Logic
                                 .SetHeight(realSize)
                                 .SetFixedPosition(
                                     marginLeft + (realSize * col),
-                                    realDocumentHeight - (marginTop + (realSize * row))
+                                    realDocumentHeight - (marginTop + (realSize * row))-realSize
                                 ));
                         col++;
                     }
                     stream.Flush();
                 }
                 stream.Flush();
+                File.WriteAllBytes(@$"k:\qrcodes\{Guid.NewGuid()}.pdf", stream.GetBuffer());
                 return stream.GetBuffer();
 
             }

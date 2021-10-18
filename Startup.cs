@@ -28,6 +28,7 @@ namespace QuantumX.qrCode
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddScoped<CodeGenerator, CodeGenerator>();
+            services.AddCors();
 
             services.AddControllers();
             services.AddSwaggerGen(c =>
@@ -39,6 +40,11 @@ namespace QuantumX.qrCode
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            app.UseCors(options => options
+            .AllowAnyMethod()
+            .AllowAnyHeader()
+            .AllowAnyOrigin());
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
